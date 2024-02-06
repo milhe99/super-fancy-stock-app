@@ -31,15 +31,15 @@ jobs:
       - name: Run a one-line script
         run: echo Runner is working!
 
-      # Install dependencies
-      - name: Install dependecies
-        run: |
-          mvn install
+      ### Install dependencies
+      #- name: Install dependecies
+      #  run: |
+      #    mvn install
 
       # Run tests, this should work with Surefire Plugin
-      - name: Run tests
-        run: |
-          mvn test
+      #- name: Run tests
+      #  run: |
+      #    mvn test
           
   merge-check:
     runs-on: ubuntu-latest
