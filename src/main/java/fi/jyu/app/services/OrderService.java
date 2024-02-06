@@ -5,18 +5,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import fi.jyu.app.models.Offer;
-import fi.jyu.app.repositories.OfferRepository;
+import fi.jyu.app.models.Order;
+import fi.jyu.app.repositories.OrderRepository;
 import lombok.AccessLevel;
 import lombok.Getter;
 
 @Service
 @Getter(AccessLevel.PROTECTED)
-public class OfferService {
+public class OrderService {
     @Autowired
-    private OfferRepository offerRepository;
+    private OrderRepository orderRepository;
 
-    public List<Offer> getOffers() {
-        return getOfferRepository().findAll();
+    public List<Order> getOrders() {
+        return getOrderRepository().findAll();
     }
 }
