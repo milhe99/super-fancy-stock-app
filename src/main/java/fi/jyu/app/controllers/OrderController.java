@@ -14,12 +14,12 @@ import lombok.Getter;
 
 @RestController
 @Getter(AccessLevel.PROTECTED)
-public class OfferController {
+public class OrderController {
     @Autowired
     private SecuredOfferService securedOfferService;
 
     @GetMapping("/offers")
-    public List<Offer> getOffers() {
-        return getSecuredOfferService().getOffers();
+    public List<Offer> getOrder() {
+        return getSecuredOrderService().getOrder();
     }
 }
