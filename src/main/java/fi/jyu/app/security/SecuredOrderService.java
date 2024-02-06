@@ -5,19 +5,19 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import fi.jyu.app.models.Offer;
-import fi.jyu.app.services.OfferService;
+import fi.jyu.app.models.Order;
+import fi.jyu.app.services.OrderService;
 import lombok.AccessLevel;
 import lombok.Getter;
 
 @Service
 @Getter(AccessLevel.PROTECTED)
-public class SecuredOfferService {
+public class SecuredOrderService {
     @Autowired
-    private OfferService offerService;
+    private OrderService orderService;
 
-    public List<Offer> getOffers() {
+    public List<Order> getOrders() {
         // TODO: Do sanization
-        return getOfferService().getOffers();
+        return getOrderService().getOrders();
     }
 }
