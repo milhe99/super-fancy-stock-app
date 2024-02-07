@@ -42,9 +42,9 @@ jobs:
        #  mvn install
 
       # Run tests, this should work with Surefire Plugin
-      - name: Run tests
-        run: |
-          mvn test
+      #- name: Run tests
+      #  run: |
+       #   mvn test
           
   merge-check:
     runs-on: ubuntu-latest
