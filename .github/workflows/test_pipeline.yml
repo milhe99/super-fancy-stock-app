@@ -23,8 +23,13 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-      
+      - uses: actions/checkout@v4
+      - name: setup JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: maven
       # Add needed dependencies or setup environments?
 
       # Test to see if runner is working
@@ -37,9 +42,9 @@ jobs:
          mvn install
 
       # Run tests, this should work with Surefire Plugin
-      - name: Run tests
-        run: |
-          mvn test
+     # - name: Run tests
+      #  run: |
+      #    mvn test
           
   merge-check:
     runs-on: ubuntu-latest
