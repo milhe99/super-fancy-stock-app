@@ -6,9 +6,9 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch.
   push:
-    branches: [ "test/no-ref/refactor-java-version-update" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "test/no-ref/refactor-java-version-update" ]
+    branches: [ "main" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -24,7 +24,10 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      
+      - run: |
+         git config --global user.email "tuukjazz@student.jyu.fi"
+         git config --global user.name "Tuukjazz"
+         
       # Add needed dependencies or setup environments?
 
       # Test to see if runner is working
