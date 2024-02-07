@@ -58,7 +58,7 @@ jobs:
       
       # Ensure the branch is up-to-date with the main branch
       - name: Sync branch with main
-        run: git fetch origin main && git merge origin/main --ff-only
+        run: git fetch origin main && git merge origin/main --ff-only --allow-unrelated-histories
 
       # Check if the merge would result in conflicts
       - name: Check for merge conflicts
