@@ -17,7 +17,7 @@ import javax.persistence.Temporal;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
-import fi.jyu.app.models.enums.OfferType;
+import fi.jyu.app.models.enums.OrderType;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -25,8 +25,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name="offer")
-public class Offer {
+@Table(name="order")
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -40,5 +40,5 @@ public class Offer {
 
     @Enumerated(EnumType.STRING)
     @NonNull
-    private OfferType type;
+    private OrderType type;
 }

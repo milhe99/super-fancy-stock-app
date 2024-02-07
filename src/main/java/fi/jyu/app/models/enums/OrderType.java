@@ -1,6 +1,6 @@
 package fi.jyu.app.models.enums;
 
-public enum OfferType {
+public enum OrderType {
     OFFER,
     BID
 }
