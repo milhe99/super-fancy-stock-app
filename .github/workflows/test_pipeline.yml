@@ -24,9 +24,6 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     
-      - run: git config --global user.email "tuukjazz@student.jyu.fi"
-             git config --global user.name "Tuukjazz"
-      
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
       - name: setup JDK 21
@@ -38,7 +35,10 @@ jobs:
           
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-         
+        
+      - run: git config --global user.email "tuukjazz@student.jyu.fi"
+             git config --global user.name "Tuukjazz"
+       
 
       # Add needed dependencies or setup environments?
 
