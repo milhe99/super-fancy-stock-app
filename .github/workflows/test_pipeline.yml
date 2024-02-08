@@ -68,6 +68,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        
+      - run: git config --global user.email "tuukjazz@student.jyu.fi"
+             git config --global user.name "Tuukjazz"
 
       # Add any necessary setup steps here
       
