@@ -1,8 +1,8 @@
-# Test workflow/pipeline (hereafter workflow)
-
+# Main workflow
+# test comment#5
 name: CI
 
-# Controls when the workflow will run
+# Controls when the workflow will run.
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch.
   push:
@@ -17,14 +17,27 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
+  
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+    
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+      - name: setup JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: maven
+          
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-         
+        
+       
+
       # Add needed dependencies or setup environments?
 
       # Test to see if runner is working
@@ -34,12 +47,19 @@ jobs:
       ### Install dependencies
      # - name: Install dependecies
       #  run: |
+
+       #  mvn install
+
+      # Run tests, this should work with Surefire Plugin
+      #- name: Run tests
+
       #   mvn install
 
       # Run tests, this should work with Surefire Plugin
-     # - name: Run tests
-      #  run: |
-       #   mvn test
+      # - name: Run tests
+
+        #  run: |
+         #   mvn test
           
   merge-check:
     runs-on: ubuntu-latest
@@ -48,6 +68,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        
+      - run: |
+            git config --global user.email "tuukjazz@student.jyu.fi"
+            git config --global user.name "Tuukjazz"
 
       # Add any necessary setup steps here
       
