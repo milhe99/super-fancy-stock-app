@@ -18,6 +18,6 @@ public class SecuredOrderService {
 
     public List<Order> getOrders() {
         // TODO: Do sanization
-        return getOrderService().getOrders();
+        return getOrderService().getAllOrders();
     }
 }
