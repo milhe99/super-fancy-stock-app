@@ -2,7 +2,6 @@ version: '3'
 services:
   postgres:
     image: postgres:latest
-    container_name: postgres_container
     ports:
       - "5432:5432"
     environment:
@@ -11,8 +10,7 @@ services:
       POSTGRES_PASSWORD: example
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
-  super-fancy-stock-app:
+  app:
     build: .
     ports:
       - "8080:8080"
