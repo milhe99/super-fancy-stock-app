@@ -2,15 +2,18 @@ package fi.jyu.superfancystockapp.controllers;
 
 import java.util.List;
 
-import fi.jyu.superfancystockapp.dto.request.OrderDTO;
-import fi.jyu.superfancystockapp.dto.response.MessageResponseDTO;
-import fi.jyu.superfancystockapp.enums.OrderType;
-import fi.jyu.superfancystockapp.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
+import fi.jyu.superfancystockapp.enums.OrderType;
 import fi.jyu.superfancystockapp.models.Order;
+import fi.jyu.superfancystockapp.services.OrderService;
 
 @RestController
 @RequestMapping("/orders")

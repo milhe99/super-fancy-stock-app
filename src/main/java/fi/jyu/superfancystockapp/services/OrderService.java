@@ -1,17 +1,14 @@
 package fi.jyu.superfancystockapp.services;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import fi.jyu.superfancystockapp.dto.request.OrderDTO;
-import fi.jyu.superfancystockapp.dto.response.MessageResponseDTO;
-import fi.jyu.superfancystockapp.enums.OrderType;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import fi.jyu.superfancystockapp.enums.OrderType;
 import fi.jyu.superfancystockapp.models.Order;
 import fi.jyu.superfancystockapp.repositories.OrderRepository;
+import lombok.RequiredArgsConstructor;
 
 
 @Service

@@ -1,11 +1,12 @@
 package fi.jyu.superfancystockapp.dto.request;
 
-import fi.jyu.superfancystockapp.enums.OrderType;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import lombok.*;
 import java.time.Instant;
+
+import fi.jyu.superfancystockapp.enums.OrderType;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
