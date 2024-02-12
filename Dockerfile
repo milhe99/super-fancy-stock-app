@@ -3,6 +3,8 @@ FROM eclipse-temurin:21-jdk
 WORKDIR /app
 COPY . .
 
+ENV DB_HOST=postgres
+
 RUN chmod +x mvnw
 RUN ./mvnw install -DskipTests
 
