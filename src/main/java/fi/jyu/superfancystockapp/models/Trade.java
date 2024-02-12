@@ -19,13 +19,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="trades")
-public class TradeHistory {
+public class Trade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-
 
     @CreationTimestamp
     @Column(name = "time")
