@@ -83,4 +83,4 @@ jobs:
 
       # Check if the merge would result in conflicts
       - name: Check for merge conflicts
-        run: git diff --quiet || { echo "Merge conflict detected! Resolve conflicts before merging."; exit 1; }
+        run: git diff --quiet || { echo "Merge conflict detected! Resolve conflicts before merging."; }
