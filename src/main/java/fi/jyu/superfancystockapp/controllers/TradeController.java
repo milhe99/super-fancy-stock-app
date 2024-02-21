@@ -16,5 +16,7 @@ public class TradeController {
     private TradeService tradeService;
 
     @GetMapping
-    public List<Trade> getAllTrades() {return tradeService.getAllTrades();}
+    public List<Trade> getAllTrades() {
+        return tradeService.getAllTrades();
+    }
 }
