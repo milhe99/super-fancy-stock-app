@@ -10,14 +10,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Entity
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Table(name="trades")
 public class Trade {
 
@@ -31,8 +30,10 @@ public class Trade {
     private Instant dateTime;
 
     @Column(name = "quantity")
+    @NotNull
     private Integer quantity;
 
     @Column(name = "price")
+    @NotNull
     private Integer price;
 }
