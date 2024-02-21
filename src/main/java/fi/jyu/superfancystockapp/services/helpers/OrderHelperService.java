@@ -44,7 +44,6 @@ public class OrderHelperService {
             // Count quantity of stocks getting traded
             int tradeQuantity = handleMatchQuantity(order, matchedOrder);
             int tradePrice = handleMatchPrice(order, matchedOrder);
-            matchedOrder.getPrice();
             
             Trade newTrade = new Trade();
             newTrade.setPrice(tradePrice);
