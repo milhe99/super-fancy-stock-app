@@ -43,7 +43,8 @@ public class OrderHelperService {
 
             // Count quantity of stocks getting traded
             int tradeQuantity = handleMatchQuantity(order, matchedOrder);
-            int tradePrice = matchedOrder.getPrice();
+            int tradePrice = handleMatchPrice(order, matchedOrder);
+            matchedOrder.getPrice();
             
             Trade newTrade = new Trade();
             newTrade.setPrice(tradePrice);
@@ -142,5 +143,17 @@ public class OrderHelperService {
 
             return matchedOrderQuantity;
         }
+    }
+
+    /**
+     * Handle match price between two orders.
+     * @param incomingOrder incomingOrder
+     * @param matchedOrder matchedOrder
+     * @return If incomingOrder is BID, return matchedOrder price. If incomingOrder is OFFER, return incomingOrder price.
+     * E.g. incomingOrder is of type Bid with price 1000, matchedOrder is of type Offer with price 900. In that case the trade is done with the price 1000 (the price of incomingOrder).
+     * E.g. incomingOrder is of type Offer with price 1000, matchedOrder is of type Bid with price 1050. In that case the trade is done with the price 1050 (the price of matchedOrder).
+     */
+    public int handleMatchPrice(Order incomingOrder, Order matchedOrder) {
+        return incomingOrder.getType() == OrderType.BID ? incomingOrder.getPrice() : matchedOrder.getPrice();
     }
 }
