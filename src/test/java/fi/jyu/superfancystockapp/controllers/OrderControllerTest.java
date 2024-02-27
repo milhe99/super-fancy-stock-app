@@ -3,6 +3,7 @@ package fi.jyu.superfancystockapp.controllers;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,6 +11,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +41,21 @@ public class OrderControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @BeforeEach
+    public void setUp() {
+        Order order = new Order();
+        order.setType(OrderType.BID);
+        order.setPrice(1000);
+        order.setQuantity(100);
+        orderRepository.save(order);
+    }
+
+    @AfterEach
+    public void tearDown() {
+        orderRepository.deleteAll();
+        tradeRepository.deleteAll();
+    }
 
     @Nested
     class MatchingOrders {
@@ -74,14 +92,20 @@ public class OrderControllerTest {
             assertEquals(1, orderRepository.findAll().size());
             assertEquals(1, tradeRepository.findAll().size());
 
-            Optional<Order> order = orderRepository.findById(1);
+            List<Order> orders = orderRepository.findAll();
+            Integer orderId = orders.get(0).getId();
+
+            Optional<Order> order = orderRepository.findById(orderId);
             if (order.isPresent()) {
                 assertEquals(50, order.get().getQuantity());
             } else {
                 fail("Data was not found");
             }
 
-            Optional<Trade> trade = tradeRepository.findById(1);
+            List<Trade> trades = tradeRepository.findAll();
+            Integer tradeId = trades.get(0).getId();
+
+            Optional<Trade> trade = tradeRepository.findById(tradeId);
             if (trade.isPresent()) {
                 assertEquals(50, trade.get().getQuantity());
             } else {
@@ -105,14 +129,20 @@ public class OrderControllerTest {
             assertEquals(1, orderRepository.findAll().size());
             assertEquals(1, tradeRepository.findAll().size());
 
-            Optional<Order> order = orderRepository.findById(2);
+            List<Order> orders = orderRepository.findAll();
+            Integer orderId = orders.get(0).getId();
+
+            Optional<Order> order = orderRepository.findById(orderId);
             if (order.isPresent()) {
                 assertEquals(50, order.get().getQuantity());
             } else {
                 fail("Data was not found");
             }
 
-            Optional<Trade> trade = tradeRepository.findById(1);
+            List<Trade> trades = tradeRepository.findAll();
+            Integer tradeId = trades.get(0).getId();
+
+            Optional<Trade> trade = tradeRepository.findById(tradeId);
             if (trade.isPresent()) {
                 assertEquals(100, trade.get().getQuantity());
             } else {
@@ -136,7 +166,10 @@ public class OrderControllerTest {
             assertEquals(0, orderRepository.findAll().size());
             assertEquals(1, tradeRepository.findAll().size());
 
-            Optional<Trade> trade = tradeRepository.findById(1);
+            List<Trade> trades = tradeRepository.findAll();
+            Integer tradeId = trades.get(0).getId();
+
+            Optional<Trade> trade = tradeRepository.findById(tradeId);
             if (trade.isPresent()) {
                 assertEquals(100, trade.get().getQuantity());
                 assertEquals(1000, trade.get().getPrice());
@@ -150,7 +183,10 @@ public class OrderControllerTest {
         // Expected: A trade is created with the price of the bid, existing offer is removed from the database, new bid is not added to the database
         @Test
         public void addBidWithExactQuantityAndBiggerPrice() throws Exception {
-            Optional<Order> order = orderRepository.findById(1);
+            List<Order> orders = orderRepository.findAll();
+            Integer orderId = orders.get(0).getId();
+
+            Optional<Order> order = orderRepository.findById(orderId);
             if (order.isPresent()) {
                 order.get().setType(OrderType.OFFER);
                 orderRepository.save(order.get());
@@ -169,7 +205,10 @@ public class OrderControllerTest {
             assertEquals(0, orderRepository.findAll().size());
             assertEquals(1, tradeRepository.findAll().size());
 
-            Optional<Trade> trade = tradeRepository.findById(1);
+            List<Trade> trades = tradeRepository.findAll();
+            Integer tradeId = trades.get(0).getId();
+
+            Optional<Trade> trade = tradeRepository.findById(tradeId);
             if (trade.isPresent()) {
                 assertEquals(100, trade.get().getQuantity());
                 assertEquals(1050, trade.get().getPrice());
@@ -204,7 +243,10 @@ public class OrderControllerTest {
         // Expected: The new offer is listed in the database, a match is not made because offers are matched against bids
         @Test
         public void addOfferWithTheSameType() throws Exception {
-            Optional<Order> order = orderRepository.findById(1);
+            List<Order> orders = orderRepository.findAll();
+            Integer orderId = orders.get(0).getId();
+
+            Optional<Order> order = orderRepository.findById(orderId);
             if (order.isPresent()) {
                 order.get().setType(OrderType.OFFER);
                 orderRepository.save(order.get());
@@ -247,7 +289,10 @@ public class OrderControllerTest {
         // Expected: The new bid is created in the database, a match is not made because bids are matched against offers whose price is lower (than the price of the bid)
         @Test
         public void addBidWithDifferentType() throws Exception {
-            Optional<Order> order = orderRepository.findById(1);
+            List<Order> orders = orderRepository.findAll();
+            Integer orderId = orders.get(0).getId();
+
+            Optional<Order> order = orderRepository.findById(orderId);
             if (order.isPresent()) {
                 order.get().setType(OrderType.OFFER);
                 orderRepository.save(order.get());

@@ -1,11 +1,28 @@
 version: '3'
 services:
-  test:
-    image: maven:latest
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: stock-app-test
+    ports:
+      - 5432:5432
     volumes:
-      - .:/usr/src/app
-    working_dir: /usr/src/app
-    command: mvn test
+      - postgres-data:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/stock-app-test
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: example
+    command: ./mvnw clean test
 
 volumes:
-  test_data:
+  postgres-data:
+    driver: local
