@@ -70,6 +70,6 @@ jobs:
         git fetch origin main
         git checkout main
         git merge --no-ff develop -m "Merging develop into main"
-        git push origin main
+        git -c http.extraheader="AUTHORIZATION: bearer ${GIT_AUTH_TOKEN}" push origin main
       env:
         GIT_AUTH_TOKEN: ${{ secrets.ACTIONKEY }}
