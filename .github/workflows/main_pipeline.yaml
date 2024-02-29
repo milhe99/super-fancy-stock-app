@@ -65,4 +65,6 @@ jobs:
           aws eks --region us-east-1 update-kubeconfig --name stockapp
           
       - name: Apply Kubernetes configuration
-        run: kubectl apply -f etc/kubernetes/
+        run: |
+          kubectl apply -f etc/kubernetes/
+          kubectl rollout restart deployment.apps/app

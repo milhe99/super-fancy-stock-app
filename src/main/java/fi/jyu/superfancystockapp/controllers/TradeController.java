@@ -19,13 +19,4 @@ public class TradeController {
     public List<Trade> getAllTrades() {
         return tradeService.getAllTrades();
     }
-
-    // FIXME: Remove this
-    @GetMapping("/test")
-    public Trade test() {
-        Trade trade = new Trade();
-        trade.setQuantity(100);
-        trade.setPrice(1000);
-        return trade;
-    }
 }
