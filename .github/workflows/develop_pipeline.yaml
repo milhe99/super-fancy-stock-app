@@ -59,6 +59,7 @@ jobs:
       with:
         ref: develop
         fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Setup Git identity
       run: |
@@ -70,7 +71,4 @@ jobs:
         git fetch origin main
         git checkout main
         git merge --no-ff develop -m "Merging develop into main"
-        git remote set-url origin https://x-access-token:${GIT_AUTH_TOKEN}@github.com/milhe99/super-fancy-stock-app.git
         git push origin main
-      env:
-        GIT_AUTH_TOKEN: ${{ secrets.ACTIONKEY }}
