@@ -41,15 +41,15 @@ jobs:
     - name: Check for merge conflicts with main
       run: |
         git merge develop --no-commit --no-ff
-        if [ $? -ne 0 ]; then
+        merge_status=$?
+        if [ $merge_status -ne 0 ]; then
           echo "Merge conflict with main branch"
           git merge --abort
           exit 1
         else
           echo "No merge conflict with main branch"
-          git merge --abort
         fi
-        git merge --abort
+        
   merge:
     needs: [test, merge-check]
     runs-on: ubuntu-latest
