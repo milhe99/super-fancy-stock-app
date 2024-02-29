@@ -18,7 +18,6 @@ jobs:
           docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit
                 
   merge-check:
-    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -26,26 +25,26 @@ jobs:
         with:
           ref: develop
           fetch-depth: 0
-
+        
       - name: Setup Git identity
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-      
+        
       - name: Fetch main branch
         run: |
           git fetch origin main
           git checkout main
-      
+        
       - name: Check for merge conflicts with main
         run: |
           git merge develop --no-commit --no-ff
-          if [ $? -ne 0 ]; then
+          merge_status=$?
+          
+          if [ $merge_status -ne 0 ]; then
             echo "Merge conflict with main branch"
             git merge --abort
             exit 1
           else
             echo "No merge conflict with main branch"
-            git merge --abort
           fi
-          git merge --abort
