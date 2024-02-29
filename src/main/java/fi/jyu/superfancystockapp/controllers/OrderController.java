@@ -3,23 +3,36 @@ package fi.jyu.superfancystockapp.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import fi.jyu.superfancystockapp.models.Order;
-import fi.jyu.superfancystockapp.security.SecuredOrderService;
-
-import lombok.AccessLevel;
-import lombok.Getter;
+import fi.jyu.superfancystockapp.services.OrderService;
+import fi.jyu.superfancystockapp.services.helpers.OrderHelperService;
 
 @RestController
-@Getter(AccessLevel.PROTECTED)
+@RequestMapping("/orders")
 public class OrderController {
     @Autowired
-    private SecuredOrderService securedOrderService;
+    private OrderService orderService;
 
-    @GetMapping("/orders")
+    @Autowired
+    private OrderHelperService orderHelperService;
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Order createOrder(@RequestBody Order order) {
+        return orderHelperService.createOrder(order);
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<Order> getOrders() {
-        return getSecuredOrderService().getOrders();
+        return orderService.getAllOrders();
     }
 }

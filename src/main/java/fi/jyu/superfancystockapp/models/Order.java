@@ -2,16 +2,18 @@ package fi.jyu.superfancystockapp.models;
 
 import fi.jyu.superfancystockapp.enums.OrderType;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.ZonedDateTime;
+import java.time.Instant;
 
 @Entity
-@Getter
-@Setter
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="orders")
 public class Order {
     @Id
@@ -19,18 +21,20 @@ public class Order {
     @Column(name = "id")
     private Integer id;
 
-    @CreatedDate
+    @CreationTimestamp
     @Column(name = "time")
-    private ZonedDateTime dateTime;
+    private Instant dateTime;
 
     @Column(name = "quantity")
+    @Min(1)
     private Integer quantity;
 
     @Column(name = "price")
     private Integer price;
 
     @Enumerated(EnumType.STRING)
-    @NonNull
+    @NotNull
     @Column(name = "type")
     private OrderType type;
+
 }
