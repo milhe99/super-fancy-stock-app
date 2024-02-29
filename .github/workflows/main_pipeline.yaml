@@ -44,6 +44,9 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+        name: Checkout code 
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -62,4 +65,4 @@ jobs:
           aws eks --region us-east-1 update-kubeconfig --name stockapp
           
       - name: Apply Kubernetes configuration
-        run: kubectl apply -f etc/kubernetes
+        run: kubectl apply -f etc/kubernetes/
