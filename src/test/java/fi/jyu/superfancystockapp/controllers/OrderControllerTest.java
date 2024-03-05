@@ -149,6 +149,43 @@ public class OrderControllerTest {
                 fail("Data was not found");
             }
         }
+        // Initial: A offer exists in the database
+        // Action: A new bid is created with a price that matches the offer, but the quantity is bigger
+        // Expected: A trade is created, existing offer is removed from the database, new bid is added to the database since not all of its quantity was traded
+        @Test
+        public void addBidToGetBiggerQuantityMatch() throws Exception {
+            ClassPathResource resource = new ClassPathResource("db/json/bidToGetBiggerQuantityMatch.json");
+            byte[] bidToCreate = resource.getInputStream().readAllBytes();
+
+            mockMvc.perform(post("/orders")
+                .contentType("application/json")
+                .content(bidToCreate))
+                .andExpect(status().isCreated());
+
+            assertEquals(1, orderRepository.findAll().size());
+            assertEquals(1, tradeRepository.findAll().size());
+
+            List<Order> orders = orderRepository.findAll();
+            Integer orderId = orders.get(0).getId();
+
+            Optional<Order> order = orderRepository.findById(orderId);
+            if (order.isPresent()) {
+                assertEquals(50, order.get().getQuantity());
+            } else {
+                fail("Data was not found");
+            }
+
+            List<Trade> trades = tradeRepository.findAll();
+            Integer tradeId = trades.get(0).getId();
+
+            Optional<Trade> trade = tradeRepository.findById(tradeId);
+            if (trade.isPresent()) {
+                assertEquals(100, trade.get().getQuantity());
+            } else {
+                fail("Data was not found");
+            }
+        }
+
 
         // Initial: A bid exists in the database
         // Action: A new offer is created with a price that is smaller than the bid, and the quantity is exactly the same
