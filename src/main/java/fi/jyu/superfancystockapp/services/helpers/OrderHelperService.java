@@ -5,7 +5,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Comparator;
 
+import fi.jyu.superfancystockapp.scheduler.ScheduledFetchPrice;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -15,6 +18,7 @@ import fi.jyu.superfancystockapp.models.Trade;
 import fi.jyu.superfancystockapp.repositories.OrderRepository;
 import fi.jyu.superfancystockapp.services.OrderService;
 import fi.jyu.superfancystockapp.services.TradeService;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class OrderHelperService {
@@ -34,6 +38,7 @@ public class OrderHelperService {
      * @return Created order or matched order
      */
     public Order createOrder(Order order) {
+        checkOrderPrice(order.getPrice());
         List<Order> matches = returnExistingOrdersMatchingIncomingOrder(order);
         if (matches.isEmpty()) {
             return orderService.createOrder(order);
@@ -51,6 +56,18 @@ public class OrderHelperService {
             tradeService.createTrade(newTrade);
 
             return matchedOrder;
+        }
+    }
+
+    /**
+     * Checks order price to be withing 10% of last traded price.
+     * If not throws bad request exception.
+     * @param orderPrice Price of incoming order
+     */
+    private void checkOrderPrice(float orderPrice) {
+        float lastPrice = ScheduledFetchPrice.getLastPrice();
+        if (Math.abs(orderPrice-lastPrice)>(orderPrice/10)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
