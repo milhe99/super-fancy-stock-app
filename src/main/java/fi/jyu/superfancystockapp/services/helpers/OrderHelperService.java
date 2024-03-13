@@ -8,7 +8,6 @@ import java.util.Comparator;
 import fi.jyu.superfancystockapp.scheduler.ScheduledFetchPrice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -39,6 +38,7 @@ public class OrderHelperService {
      */
     public Order createOrder(Order order) {
         checkOrderPrice(order.getPrice());
+        order.setPrice(roundOrderPrice(order.getPrice()));
         List<Order> matches = returnExistingOrdersMatchingIncomingOrder(order);
         if (matches.isEmpty()) {
             return orderService.createOrder(order);
@@ -48,7 +48,7 @@ public class OrderHelperService {
 
             // Count quantity of stocks getting traded
             int tradeQuantity = handleMatchQuantity(order, matchedOrder);
-            int tradePrice = handleMatchPrice(order, matchedOrder);
+            float tradePrice = handleMatchPrice(order, matchedOrder);
             
             Trade newTrade = new Trade();
             newTrade.setPrice(tradePrice);
@@ -111,14 +111,14 @@ public class OrderHelperService {
             @Override
             public int compare(Order o1, Order o2) {
                 if (o1.getType() == OrderType.BID && o2.getType() == OrderType.BID) {
-                    int comparisonByPrice = Integer.compare(o2.getPrice(), o1.getPrice());
+                    int comparisonByPrice = Float.compare(o2.getPrice(), o1.getPrice());
                     if (comparisonByPrice != 0) {
                         return comparisonByPrice;
                     }
                 }
 
                 if (o1.getType() == OrderType.OFFER && o2.getType() == OrderType.OFFER) {
-                    int comparisonByPrice = Integer.compare(o1.getPrice(), o2.getPrice());
+                    int comparisonByPrice = Float.compare(o1.getPrice(), o2.getPrice());
                     if (comparisonByPrice != 0) {
                         return comparisonByPrice;
                     }
@@ -169,7 +169,11 @@ public class OrderHelperService {
      * E.g. incomingOrder is of type Bid with price 1000, matchedOrder is of type Offer with price 900. In that case the trade is done with the price 1000 (the price of incomingOrder).
      * E.g. incomingOrder is of type Offer with price 1000, matchedOrder is of type Bid with price 1050. In that case the trade is done with the price 1050 (the price of matchedOrder).
      */
-    public int handleMatchPrice(Order incomingOrder, Order matchedOrder) {
+    public float handleMatchPrice(Order incomingOrder, Order matchedOrder) {
         return incomingOrder.getType() == OrderType.BID ? incomingOrder.getPrice() : matchedOrder.getPrice();
+    }
+
+    public float roundOrderPrice(float price) {
+        return Math.round(price * 100.0) / 100.0f;
     }
 }

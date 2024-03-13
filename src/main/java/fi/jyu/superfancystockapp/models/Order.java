@@ -30,7 +30,7 @@ public class Order {
     private Integer quantity;
 
     @Column(name = "price")
-    private Integer price;
+    private float price;
 
     @Enumerated(EnumType.STRING)
     @NotNull

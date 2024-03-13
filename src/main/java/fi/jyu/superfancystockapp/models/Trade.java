@@ -35,5 +35,5 @@ public class Trade {
 
     @Column(name = "price")
     @NotNull
-    private Integer price;
+    private float price;
 }
