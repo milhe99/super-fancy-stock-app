@@ -11,8 +11,8 @@ import fi.jyu.superfancystockapp.models.Order;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Integer> {
     @Query("select o from Order o where o.type = OFFER and o.price <= ?1")
-    List<Order> findOffersBelowPrice(Integer price);
+    List<Order> findOffersBelowPrice(float price);
 
     @Query("select o from Order o where o.type = BID and o.price >= ?1")
-    List<Order> findBidsAbovePrice(Integer price);
+    List<Order> findBidsAbovePrice(float price);
 }
