@@ -78,14 +78,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         name: Checkout code 
+        with:
+          token: ${{ secrets.ACTIONKEY }}
 
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACTIONKEY }}
         with:
-          tag_name: ${{ github.ref }}
+          tag_name: ${{ github.sha }}
           release_name: Release ${{ github.ref }}
           body: |
             Automatically generated changelog
