@@ -1,5 +1,11 @@
 ##  (2024-03-14)
 
+* Use access key in release action ([943eadf](https://github.com/milhe99/super-fancy-stock-app/commit/943eadf))
+
+
+
+##  (2024-03-14)
+
 * Merge branch 'main' of github.com:milhe99/super-fancy-stock-app ([a20e790](https://github.com/milhe99/super-fancy-stock-app/commit/a20e790))
 
 
