@@ -84,6 +84,8 @@ jobs:
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
+        env:
+          ACCESS_KEY: ${{ secrets.ACTIONKEY }}
         with:
           tag_name: ${{ github.sha }}
           release_name: Release ${{ github.ref }}
