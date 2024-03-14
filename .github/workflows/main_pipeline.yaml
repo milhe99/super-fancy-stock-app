@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    if: 'contains(github.event.head_commit.message, "Automatically generated changelog") == false'
+    if: 'contains(github.event.head_commit.message, ''Automatically generated changelog'') == false'
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +19,7 @@ jobs:
           docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit
 
   build:
-    if: 'contains(github.event.head_commit.message, "Automatically generated changelog") == true'
+    if: 'contains(github.event.head_commit.message, ''Automatically generated changelog'') == true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -43,7 +43,7 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/app:latest
 
   changelog:
-    if: 'contains(github.event.head_commit.message, "Automatically generated changelog") == false'
+    if: 'contains(github.event.head_commit.message, ''Automatically generated changelog'') == false'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -76,7 +76,7 @@ jobs:
           branch: main
       
   release:
-    if: 'contains(github.event.head_commit.message, "Automatically generated changelog") == true'
+    if: 'contains(github.event.head_commit.message, ''Automatically generated changelog'') == true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -96,7 +96,7 @@ jobs:
           prerelease: false
 
   deploy:
-    if: 'contains(github.event.head_commit.message, "Automatically generated changelog") == true'
+    if: 'contains(github.event.head_commit.message, ''Automatically generated changelog'') == true'
     needs: build
     runs-on: ubuntu-latest
     steps:
