@@ -62,18 +62,15 @@ jobs:
         run: |
           conventional-changelog -p eclipse -i CHANGELOG.md -s
 
-      - name: Commit changelog
+      - name: Commit and push changelog
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add CHANGELOG.md
           git commit -m "Automatically generated changelog"
-
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.ACTIONKEY }}
-          branch: main
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONKEY }}
       
   release:
     if: 'contains(github.event.head_commit.message, ''Automatically generated changelog'') == true'
