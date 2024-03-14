@@ -7,6 +7,7 @@ on:
 
 jobs:
   test:
+    if: 'contains(github.event.head_commit.message, "Automatically generated changelog") == false'
     runs-on: ubuntu-latest
 
     steps:
@@ -18,6 +19,7 @@ jobs:
           docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit
 
   build:
+    if: 'contains(github.event.head_commit.message, "Automatically generated changelog") == true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -40,7 +42,61 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/app:latest
 
+  changelog:
+    if: 'contains(github.event.head_commit.message, "Automatically generated changelog") == false'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout code 
+
+      - name: Setup node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '21'
+
+      - name: Install package
+        run:
+          npm install -g conventional-changelog-cli
+      
+      - name: Generate changelog
+        run: |
+          conventional-changelog -p eclipse -i CHANGELOG.md -s
+
+      - name: Commit changelog
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add CHANGELOG.md
+          git commit -m "Automatically generated changelog"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.ACTIONKEY }}
+          branch: main
+      
+  release:
+    if: 'contains(github.event.head_commit.message, "Automatically generated changelog") == true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout code 
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONKEY }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Automatically generated changelog
+          draft: false
+          prerelease: false
+
   deploy:
+    if: 'contains(github.event.head_commit.message, "Automatically generated changelog") == true'
     needs: build
     runs-on: ubuntu-latest
     steps:
